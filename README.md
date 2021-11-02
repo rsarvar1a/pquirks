@@ -2,19 +2,26 @@
 
 A party quirks rule utility.
 
-### Usage
+### Installation
 
-Build the application:
+`pquirks` depends on `cmake`, `ninja`, and `exa`. You can skip the `exa` dependency if you swap it with `ls` and 
+filter in each loop for directories.
+
+Build the application.
 
 ```sh
 ./scripts/build.sh
 ```
 
-Run the application:
+### Usage
 
-```sh
+Run the program.
+
+```sh 
 ./bin/pquirks
 ```
+
+To see the help menu, enter `?`.
 
 ### Creating new rules
 
