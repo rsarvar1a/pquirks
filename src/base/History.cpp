@@ -164,7 +164,14 @@ void History::push_reject(const std::string & word)
   }
 }
 
-bool History::state_has(const std::string & key)
+std::ostream & History::state_format(std::ostream & out) const
+{
+  U_LOGI("State:");
+  out << m_state.dump() << std::endl;
+  return out;
+}
+
+bool History::state_has(const std::string & key) const
 {
   return m_state.count(key) > 0;
 }

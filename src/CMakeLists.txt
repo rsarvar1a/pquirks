@@ -19,4 +19,3 @@ target_link_libraries(pquirks PUBLIC rules)
 target_include_directories(pquirks PUBLIC "${PROJECT_SOURCE_DIR}/base")
 target_include_directories(pquirks PUBLIC "${PROJECT_SOURCE_DIR}/rules")
 
-

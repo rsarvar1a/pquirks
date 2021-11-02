@@ -178,6 +178,12 @@ int main()
           }
           break;
         }
+      case "s"_:
+      case "state"_:
+        {
+          history.state_format(std::cout);
+          break;
+        }
       case "?"_:
         {
           std::string helptext = 

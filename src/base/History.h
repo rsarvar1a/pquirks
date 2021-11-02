@@ -92,21 +92,26 @@ class History
     void push_reject(const std::string & word);
 
     /**
+     *  Dumps the state to the given stream.
+     */ 
+    std::ostream & state_format(std::ostream & out) const;
+
+    /**
      *  Gets the value located at the given key.
      */
     template<typename T>
-    T state_get(const std::string & key);
+    T state_get(const std::string & key) const;
 
     /**
      *  Determines whether the state has a value at the given key.
      */ 
-    bool state_has(const std::string & key);
+    bool state_has(const std::string & key) const;
 
     /**
      *  Sets the value at the given key.
      */ 
     template<typename T>
-    void state_set(const std::string & key, T t);
+    void state_set(const std::string & key, T t) const;
 
   private:
 
@@ -117,19 +122,21 @@ class History
 };
 
 template<typename T>
-T History::state_get(const std::string & key)
+T History::state_get(const std::string & key) const
 {
   if (! state_has(key))
   {
     THROW_ERROR("The history does not contain the key '", key, "'.");
   }
-  return m_state.get<T>(key);
+
+  T ret = m_state.at(key);
+  return ret;
 }
 
 template<typename T>
-void History::state_set(const std::string & key, T t)
+void History::state_set(const std::string & key, T t) const
 {
-  m_state[key] = t;
+  const_cast<nlohmann::json &>(m_state)[key] = t;
 }
 
 #endif
