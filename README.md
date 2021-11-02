@@ -4,8 +4,8 @@ A party quirks rule utility.
 
 ### Installation
 
-`pquirks` depends on `cmake`, `ninja`, and `exa`. You can skip the `exa` dependency if you swap it with `ls` and 
-filter in each loop for directories.
+`pquirks` depends on `cmake`, `ninja`, `nlohmann-json` and `exa`. You can skip the `exa` dependency if you swap 
+it with `ls` and filter in each loop for directories.
 
 Build the application.
 

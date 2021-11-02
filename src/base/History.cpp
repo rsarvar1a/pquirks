@@ -164,3 +164,8 @@ void History::push_reject(const std::string & word)
   }
 }
 
+bool History::state_has(const std::string & key)
+{
+  return m_state.count(key) > 0;
+}
+

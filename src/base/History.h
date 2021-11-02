@@ -2,14 +2,20 @@
 #ifndef PQ_HISTORY_H_
 #define PQ_HISTORY_H_
 
+#include <nlohmann/json.hpp>
+
 #include <iostream>
+#include <map>
 #include <string>
 #include <vector>
 
+#include "Error.h"
 #include "Guess.h"
 
 /**
  *  Stores the word data for a given rule.
+ *
+ *  Also includes an arbitrary json object that can be used to get and set arbitrary states.
  */ 
 class History
 {
@@ -85,12 +91,46 @@ class History
      */ 
     void push_reject(const std::string & word);
 
+    /**
+     *  Gets the value located at the given key.
+     */
+    template<typename T>
+    T state_get(const std::string & key);
+
+    /**
+     *  Determines whether the state has a value at the given key.
+     */ 
+    bool state_has(const std::string & key);
+
+    /**
+     *  Sets the value at the given key.
+     */ 
+    template<typename T>
+    void state_set(const std::string & key, T t);
+
   private:
 
     std::vector<Guess> m_guessed;
     std::vector<Guess> m_accepted;
     std::vector<Guess> m_rejected;
+    nlohmann::json     m_state;
 };
+
+template<typename T>
+T History::state_get(const std::string & key)
+{
+  if (! state_has(key))
+  {
+    THROW_ERROR("The history does not contain the key '", key, "'.");
+  }
+  return m_state.get<T>(key);
+}
+
+template<typename T>
+void History::state_set(const std::string & key, T t)
+{
+  m_state[key] = t;
+}
 
 #endif
 
