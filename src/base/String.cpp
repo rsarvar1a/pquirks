@@ -1,5 +1,8 @@
 
+#include <fstream>
+#include <memory>
 #include <sstream>
+#include <unordered_set>
 
 #include "String.h"
 
@@ -43,6 +46,25 @@ unsigned count(const std::string & word, char ch)
   }
 
   return count;
+}
+
+bool in_dictionary(const std::string & word)
+{
+  static std::unique_ptr<std::unordered_set<std::string>> dictionary;
+  if (! dictionary.get())
+  {
+    dictionary = std::make_unique<std::unordered_set<std::string>>();
+
+    std::fstream fs {"data/dictionary.txt"};
+    std::string line;
+    
+    while (fs >> line)
+    {
+      dictionary->insert(trim(lower(line)));  
+    }
+  }
+
+  return dictionary->find(trim(lower(word))) != dictionary->end(); 
 }
 
 std::string join(const std::vector<std::string> & words, const std::string & inner)

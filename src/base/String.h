@@ -22,6 +22,11 @@ std::string charwise_transform (const std::string & word, std::function<std::str
 unsigned count (const std::string & word, char ch);
 
 /**
+ *  Determines if the word is found in the dictionary supplied in the data path.
+ */ 
+bool in_dictionary (const std::string & word);
+
+/**
  *  Joins the words together with the given inner delimiter.
  */ 
 std::string join (const std::vector<std::string> & words, const std::string & inner);
