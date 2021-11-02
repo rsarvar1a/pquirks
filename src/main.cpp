@@ -155,6 +155,7 @@ int main()
           else if (table.find(cmdline[1]) != table.end())
           {
             in_effect = table.at(cmdline[1]);
+            history = {};
             U_LOGI("Loaded rule '", in_effect->name(), "'.");
           }
           else
@@ -177,9 +178,48 @@ int main()
           }
           break;
         }
+      case "?"_:
+        {
+          std::string helptext = 
+            "clear"
+            "\n\taliases: 'cls'"
+            "\n\tclears the screen"
+            "\n"
+            "\nguess   <word>"
+            "\n\taliases: 'g'"
+            "\n\tguesses a word with respect to the active rule"
+            "\n"
+            "\nhistory"
+            "\n\taliases: 'h'"
+            "\n\tshows this game's guesses in chronological order"
+            "\n"
+            "\nlist"
+            "\n\taliases: 'l', 'ls'"
+            "\n\tlists all available rules"
+            "\n"
+            "\nnewgame <rule>"
+            "\n\taliases: 'ng', 'new'"
+            "\n\tloads the given rule and starts a new game"
+            "\n"
+            "\nquit"
+            "\n\taliases: 'q'"
+            "\n\tquits pquirks"
+            "\n"
+            "\nrestart"
+            "\n\taliases: 'rs'"
+            "\n\tclears the history"
+            "\n"
+            "\n?"
+            "\n\tshows this help menu"
+            "\n";
+
+          U_LOGI("Available commands:");
+          std::cout << helptext << std::endl;
+          break;
+        }
       default:
         {
-          U_LOGE("Unknown command '", cmd, "'.");
+          U_LOGE("Unknown command '", cmd, "'; type `?` for help.");
           break;
         }
     }

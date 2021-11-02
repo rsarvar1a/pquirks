@@ -60,48 +60,86 @@ std::string upper (const std::string & word);
 /**
  *  Built-in predicate that determines whether the character is alphanumeric.
  */ 
-const std::function<bool(char)> is_alnum = [](char c){ return ('0' <= c && c <= '9') || ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'); };
+const std::function<bool(char)> is_alnum = [](char c)
+{ 
+  return ('0' <= c && c <= '9') || ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'); 
+};
 
 /**
  *  Built-in predicate that determines whether the character is a digit.
  */ 
-const std::function<bool(char)> is_digit = [](char c){ return ('0' <= c && c <= '9'); };
+const std::function<bool(char)> is_digit = [](char c)
+{ 
+  return ('0' <= c && c <= '9'); 
+};
 
 /**
  *  Built-in predicate that determines whether the character is a lowercase letter.
  */ 
-const std::function<bool(char)> is_lower = [](char c){ return ('a' <= c && c <= 'z'); };
+const std::function<bool(char)> is_lower = [](char c)
+{ 
+  return ('a' <= c && c <= 'z'); 
+};
 
 /**
  *  Built-in predicate that determines whether the character is a form of whitespace.
  */ 
-const std::function<bool(char)> is_space = [](char c){ return c == ' ' || c == '\n' || c == '\t'; };
+const std::function<bool(char)> is_space = [](char c)
+{ 
+  return c == ' ' || c == '\n' || c == '\t'; 
+};
 
 /**
  *  Built-in predicate that determines whether the character is an uppercase letter.
  */ 
-const std::function<bool(char)> is_upper = [](char c){ return ('A' <= c && c <= 'Z'); };
+const std::function<bool(char)> is_upper = [](char c)
+{ 
+  return ('A' <= c && c <= 'Z'); 
+};
 
 /**
  *  Built-in mapper that takes every alphabetical character to its ASCII representation 
  *  and every other character to 0.
  */ 
-const std::function<std::string(char)> to_ascii = [](char c) { return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') ? std::to_string((int) c) + " " : "0 "; };
+const std::function<std::string(char)> to_ascii = [](char c) 
+{ 
+  return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') ? std::to_string((int) c) + " " : "0 "; 
+};
 
 /**
  *  Built-in mapper that takes every letter to its lowercase.
  */ 
-const std::function<std::string(char)> to_lower = [](char c){ return std::string {(char) tolower(c)}; };
+const std::function<std::string(char)> to_lower = [](char c)
+{ 
+  return std::string {(char) tolower(c)}; 
+};
+
+/**
+ *  Built-in mapper that takes every letter to its morse representation. 
+ */ 
+const std::function<std::string(char)> to_morse = [](char c)
+{ 
+  static std::vector<std::string> morse = 
+    {"-_", "_---", "_-_-", "_--", "-", "--_-", "__-", "----", "--", "-___", "_-_", "-_--", "__", 
+      "_-", "___", "-__-", "__-_", "-_-", "---", "_", "--_", "---_", "-__", "_--_", "_-__", "__--"}; 
+  return ('a' <= c && c <= 'z') ? morse[c - 'a'] + " " : (('A' <= c && c <= 'z') ? morse[c - 'A'] + " " : ""); 
+};
 
 /**
  *  Built-in mapper that standardizes all whitespace to space characters.
  */ 
-const std::function<std::string(char)> to_space = [](char c){ return (c == ' ' || c == '\n' || c == '\t') ? " " : std::string{c}; };
+const std::function<std::string(char)> to_space = [](char c)
+{ 
+  return (c == ' ' || c == '\n' || c == '\t') ? " " : std::string{c}; 
+};
 
 /**
  *  Built-in mapper that takes every letter to its uppercase. 
  */ 
-const std::function<std::string(char)> to_upper = [](char c){ return std::string {(char) toupper(c)}; };
+const std::function<std::string(char)> to_upper = [](char c)
+{ 
+  return std::string {(char) toupper(c)}; 
+};
 
 #endif
 
