@@ -29,10 +29,12 @@ cat <<EOF > "src/rules/$1/$1.cpp"
 
 std::string $1::description() const
 {
+  return "description";
 }
 
 bool $1::test(const std::string & word, const History & history) const
 {
+  return true;
 }
 
 EOF

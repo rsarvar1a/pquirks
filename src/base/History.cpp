@@ -2,6 +2,7 @@
 #include <iomanip>
 
 #include "Error.h"
+#include "Logging.h"
 #include "History.h"
 
 size_t History::count() const
@@ -23,7 +24,8 @@ std::ostream & History::format(std::ostream & out) const
 {
   if (m_guessed.empty())
   {
-    THROW_ERROR("History should not be empty!");
+    U_LOGW("No guesses have been made yet.");
+    return out;
   }
 
   size_t pad = 8;
@@ -32,32 +34,38 @@ std::ostream & History::format(std::ostream & out) const
     pad = std::max(pad, guess.word.size());
   }
 
+  U_LOGI("History:");
+
   out 
-    << std::setw(pad) << "\033[0;4mACCEPTED:\033[0m"
+    << std::setw(pad) << std::left << "ACCEPTED:"
     << " | "
-    << std::setw(pad) << "\033[0;4mREJECTED:\033[0m"
-    << "\n";
+    << std::setw(pad) << std::left << "REJECTED:"
+    << "\n"
+    << std::setw(2 * pad + 5) << std::setfill('-') << std::left << "-" 
+    << "\n"
+    << std::setfill(' ');
 
   for (Guess guess : m_guessed)
   {
     if (guess.accepted)
     {
       out
-        << std::setw(pad) << guess.word
+        << std::setw(pad) << std::left << guess.word
         << " | "
-        << std::setw(pad) << " "
+        << std::setw(pad) << std::left << " "
         << "\n";
     }
     else
     {
       out
-        << std::setw(pad) << " " 
+        << std::setw(pad) << std::left << " " 
         << " | " 
-        << std::setw(pad) << guess.word 
+        << std::setw(pad) << std::left << guess.word 
         << "\n";
     }
   }
 
+  out << "\n";
   return out;
 }
 
