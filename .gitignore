@@ -1,0 +1,6 @@
+bin/
+build/
+src/rules/**/
+src/rules/Rules.h
+compile_commands.json
+tags/
