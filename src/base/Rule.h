@@ -69,32 +69,39 @@ class Rules
 /**
  *  Derives the class header for the rule of the given name.
  */ 
-#define DERIVE_RULE(classname)                                                     \
-  class classname : public Rule                                                    \
-  {                                                                                \
-    public:                                                                        \
-                                                                                   \
-      static classname & instance()                                                \
-      {                                                                            \
-        static std::unique_ptr<classname> inst_ = std::make_unique<classname>();   \
-        static bool is_registered = false;                                         \
-        if (! is_registered)                                                       \
-        {                                                                          \
-          Rules::register_rule(inst_.get());                                       \
-          is_registered = true;                                                    \
-        }                                                                          \
-        return * inst_;                                                            \
-      }                                                                            \
-                                                                                   \
-      virtual std::string description() const override;                            \
-                                                                                   \
-      virtual std::string name() const override                                    \
-      {                                                                            \
-        return #classname;                                                         \
-      }                                                                            \
-                                                                                   \
-      bool test(const std::string & word, const History & history) const override; \
+#define DERIVE_RULE(classname, base)                                                       \
+  class classname : public base                                                            \
+  {                                                                                        \
+    public:                                                                                \
+                                                                                           \
+      using Base = base;                                                                   \
+                                                                                           \
+      static classname & instance()                                                        \
+      {                                                                                    \
+        static std::unique_ptr<classname> inst_ = std::make_unique<classname>();           \
+        static bool is_registered = false;                                                 \
+        if (! is_registered)                                                               \
+        {                                                                                  \
+          Rules::register_rule(inst_.get());                                               \
+          is_registered = true;                                                            \
+        }                                                                                  \
+        return * inst_;                                                                    \
+      }                                                                                    \
+                                                                                           \
+      virtual std::string description() const override;                                    \
+                                                                                           \
+      virtual std::string name() const override                                            \
+      {                                                                                    \
+        return #classname;                                                                 \
+      }                                                                                    \
+                                                                                           \
+      virtual bool test(const std::string & word, const History & history) const override; \
   };
+
+/**
+ *  Derives the class header for the rule with superclass Rule.
+ */ 
+#define DERIVE_BASE(classname) DERIVE_RULE(classname, Rule)
 
 #endif 
 

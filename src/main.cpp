@@ -42,25 +42,12 @@ void cmd_ls (const std::map<std::string, const Rule *> & table)
 {
   U_LOGI("Available rules:");
 
-  size_t pad_name = 0;
-  size_t pad_desc = 0;
-  for (auto entry : table)
-  {
-    pad_name = std::max(pad_name, entry.second->name().size());
-    pad_desc = std::max(pad_desc, entry.second->description().size());
-  }
-  pad_name += 2;
-
   for (auto entry : table)
   {
     std::cout 
-      << std::setw(pad_name) << std::left << "\"" + entry.first + "\""
-      << ": "
-      << std::setw(pad_desc) << std::left << entry.second->description()
-      << "\n";
+      << "\033[1;4m\"" + entry.first + "\"\033[0m\n\n"
+      << "\033[3m" << entry.second->description() << "\033[0m\n\n";
   }
-
-  std::cout << "\n";
 }
 
 std::vector<std::string> cmd_parse(const std::string & line, size_t & nargs)
@@ -95,9 +82,14 @@ int main()
 
   while (! should_exit)
   {
+    std::cout << "=> \033[1;3m";
     getline(std::cin, line);
+    std::cout << "\033[0m\n";
+
     size_t nargs;
     std::vector<std::string> cmdline = cmd_parse(line, nargs);
+    if (nargs == 0) continue;
+
     std::string cmd = cmdline[0];
 
     switch (hash(cmd)) 
@@ -175,7 +167,14 @@ int main()
       case "restart"_:
         {
           history = {};
-          U_LOGI(in_effect ? ("Restarting with rule '", in_effect->name(), "'.") : "Clearing history.");
+          if (in_effect)
+          {
+            U_LOGI("Restarting with active rule '", in_effect->name(), "'.");
+          }
+          else 
+          {
+            U_LOGW("Clearing history, but there is no rule in effect.");
+          }
           break;
         }
       default:

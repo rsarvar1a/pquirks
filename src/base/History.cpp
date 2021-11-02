@@ -28,7 +28,7 @@ std::ostream & History::format(std::ostream & out) const
     return out;
   }
 
-  size_t pad = 8;
+  size_t pad = 9;
   for (Guess guess : m_guessed)
   {
     pad = std::max(pad, guess.word.size());

@@ -17,7 +17,7 @@ cat <<EOF > "src/rules/$1/$1.h"
 #include <Rule.h>
 #include <String.h>
 
-DERIVE_RULE($1);
+DERIVE_BASE($1);
 
 #endif
 
