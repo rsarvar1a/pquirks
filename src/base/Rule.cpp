@@ -7,6 +7,11 @@ const std::map<std::string, const Rule *> & Rules::get_rule_table()
   return instance().m_rules;
 }
 
+std::ostream & Rule::print_state(std::ostream & out, const History & history) const
+{
+  return history.state_format(out);
+}
+
 void Rules::register_rule(Rule * rule_instance)
 {
   if (instance().m_rules.find(rule_instance->name()) != instance().m_rules.end())

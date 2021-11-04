@@ -23,9 +23,19 @@ class Rule
     virtual std::string description() const = 0;
 
     /**
+     *  Sets up the relevant bits of the state.
+     */ 
+    virtual void initialize(History & history) const = 0;
+
+    /**
      *  Returns a name or identifier for the rule.
      */ 
     virtual std::string name() const = 0;
+
+    /**
+     *  Prints the relevant bits of the state.
+     */ 
+    virtual std::ostream & print_state(std::ostream & out, const History & history) const;
 
     /**
      *  Determines if the word accepts or rejects given the history.
@@ -69,33 +79,37 @@ class Rules
 /**
  *  Derives the class header for the rule of the given name.
  */ 
-#define DERIVE_RULE(classname, base)                                                       \
-  class classname : public base                                                            \
-  {                                                                                        \
-    public:                                                                                \
-                                                                                           \
-      using Base = base;                                                                   \
-                                                                                           \
-      static classname & instance()                                                        \
-      {                                                                                    \
-        static std::unique_ptr<classname> inst_ = std::make_unique<classname>();           \
-        static bool is_registered = false;                                                 \
-        if (! is_registered)                                                               \
-        {                                                                                  \
-          Rules::register_rule(inst_.get());                                               \
-          is_registered = true;                                                            \
-        }                                                                                  \
-        return * inst_;                                                                    \
-      }                                                                                    \
-                                                                                           \
-      virtual std::string description() const override;                                    \
-                                                                                           \
-      virtual std::string name() const override                                            \
-      {                                                                                    \
-        return #classname;                                                                 \
-      }                                                                                    \
-                                                                                           \
-      virtual bool test(const std::string & word, const History & history) const override; \
+#define DERIVE_RULE(classname, base)                                                                  \
+  class classname : public base                                                                       \
+  {                                                                                                   \
+    public:                                                                                           \
+                                                                                                      \
+      using Base = base;                                                                              \
+                                                                                                      \
+      static classname & instance()                                                                   \
+      {                                                                                               \
+        static std::unique_ptr<classname> inst_ = std::make_unique<classname>();                      \
+        static bool is_registered = false;                                                            \
+        if (! is_registered)                                                                          \
+        {                                                                                             \
+          Rules::register_rule(inst_.get());                                                          \
+          is_registered = true;                                                                       \
+        }                                                                                             \
+        return * inst_;                                                                               \
+      }                                                                                               \
+                                                                                                      \
+      virtual std::string description() const override;                                               \
+                                                                                                      \
+      virtual void initialize(History & history) const override;                                      \
+                                                                                                      \
+      virtual std::ostream & print_state(std::ostream & out, const History & history) const override; \
+                                                                                                      \
+      virtual std::string name() const override                                                       \
+      {                                                                                               \
+        return #classname;                                                                            \
+      }                                                                                               \
+                                                                                                      \
+      virtual bool test(const std::string & word, const History & history) const override;            \
   };
 
 /**

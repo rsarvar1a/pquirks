@@ -32,6 +32,16 @@ std::string $1::description() const
   return "description";
 }
 
+void $1::initialize(History & history) const
+{
+  return;
+}
+
+std::ostream & $1::print_state(std::ostream & out, const History & history) const
+{
+  return Base::print_state(out, history);
+}
+
 bool $1::test(const std::string & word, const History & history) const
 {
   return true;

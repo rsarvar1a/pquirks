@@ -156,6 +156,7 @@ int main()
           {
             in_effect = table.at(cmdline[1]);
             history = {};
+            in_effect->initialize(history);
             U_LOGI("Loaded rule '", in_effect->name(), "'.");
           }
           else
@@ -181,7 +182,10 @@ int main()
       case "s"_:
       case "state"_:
         {
-          history.state_format(std::cout);
+          U_LOGI("State:");
+          if (in_effect) in_effect->print_state(std::cout, history);
+          else history.state_format(std::cout);
+          std::cout << std::endl;
           break;
         }
       case "?"_:

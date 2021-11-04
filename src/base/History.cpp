@@ -166,7 +166,6 @@ void History::push_reject(const std::string & word)
 
 std::ostream & History::state_format(std::ostream & out) const
 {
-  U_LOGI("State:");
   out << m_state.dump() << std::endl;
   return out;
 }

@@ -34,7 +34,9 @@ the application.
 ```
 
 You are required to only provide two implementations, which are `Rule::description()` and `Rule::test(word, history)`.
-There are some string utilities built into the framework, which can be found in `src/String.h`.
+There are some string utilities built into the framework, which can be found in `src/String.h`. Optionally, if your
+rule works with the history's state, you can initialize the state in `Rule::initialize(history)` and provide an output
+format in `Rule::print_state(out, history)`.
 
 For example, here is the full implementation for `SumOfOrdsLastRejected`:
 
@@ -63,6 +65,16 @@ DERIVE_BASE(SumOfOrdsLastRejected_H_);
 std::string SumOfOrdsLastRejected::description() const
 {
   return "Accepts a word if the sum of its letters is equal to the sum of the letters of the last rejected word.";
+}
+
+void SumOfOrdsLastRejected::initialize(History & history) const
+{
+  return;
+}
+
+std::ostream & SumOfOrdsLastRejected::print_state(std::ostream & out, const History & history) const
+{
+  return Base::print_state(out, history);
 }
 
 bool SumOfOrdsLastRejected(const std::string & word, const History & history) const
@@ -108,6 +120,15 @@ std::string DecoratedRule::description() const
   return 
     "Accepts a word with 80% probability if the sum of its letters is equal to the sum of the " 
     "letters of the last rejected word, and accepts with 20% probability otherwise.";
+}
+
+void DecoratedRule::initialize(History & history) const
+{
+}
+
+std::ostream & DecoratedRule::print_state(std::ostream & out, const History & history) const
+{
+  return Base::print_state(out, history);
 }
 
 bool DecoratedRule::test(const std::string & word, const History & history) const
