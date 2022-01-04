@@ -106,7 +106,7 @@ std::vector<std::string> split(const std::string & word, const std::string & del
 
 unsigned sum_a1z26(const std::string & word)
 {
-  std::string intermediate = trim(lower(word));
+  std::string intermediate = charwise_filter(lower(word), is_lower);
   unsigned sum = 0;
 
   for (char c : intermediate)

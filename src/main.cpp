@@ -100,6 +100,21 @@ int main()
           cmd_clear();
           break;
         }
+      case "d"_:
+      case "desc"_:
+      case "description"_:
+        {
+          if (in_effect)
+          {
+            U_LOGI("Description for ", in_effect->name(), ":");
+            std::cout << in_effect->description() << std::endl << std::endl;
+          }
+          else
+          {
+            U_LOGE("There is no rule in effect.");
+          }
+          break;
+        }
       case "q"_:
       case "quit"_:
         {
@@ -195,6 +210,10 @@ int main()
             "\n\taliases: 'cls'"
             "\n\tclears the screen"
             "\n"
+            "\ndescription"
+            "\n\taliases: 'd', 'desc'"
+            "\n\texplains the active rule"
+            "\n"
             "\nguess   <word>"
             "\n\taliases: 'g'"
             "\n\tguesses a word with respect to the active rule"
@@ -219,6 +238,9 @@ int main()
             "\n\taliases: 'rs'"
             "\n\tclears the history"
             "\n"
+            "\nstate"
+            "\n\taliases: 's'"
+            "\n\tshows the state"
             "\n?"
             "\n\tshows this help menu"
             "\n";

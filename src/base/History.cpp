@@ -58,7 +58,8 @@ std::ostream & History::format(std::ostream & out) const
     else
     {
       out
-        << std::setw(pad) << std::left << " " 
+        << "."
+        << std::setw(pad - 1) << std::left << " " 
         << " | " 
         << std::setw(pad) << std::left << guess.word 
         << "\n";
